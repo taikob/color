@@ -29,6 +29,14 @@ def HLS_to_RGB(H, L, S):
     elif L == 1:
         return [1, 1, 1]
 
+def RGB_to_colorcode(RGB):
+    code='#'
+    for c in RGB:
+        if c < 16:
+            code += str(0)
+        code+=str(hex(int(c))).replace('0x','')
+    return code
+
 def get_int(tprm):
     prm = int(tprm)
     prm = HLS_to_RGB(prm, 0.5, 1)
