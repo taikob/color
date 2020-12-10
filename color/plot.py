@@ -1,5 +1,7 @@
 from matplotlib import pyplot as plt
-import csv
+import convert as c
+import cv2
+import numpy as np
 
 def show_colormap(colorlist,sw):
     nh=len(colorlist) #num Hue
@@ -38,3 +40,22 @@ def show_colormap(colorlist,sw):
             i+=1
 
     plt.show()
+
+def make_image(H,L=None,S=None):
+    if L is None or S is None:
+        L=0.5
+        S=1
+        title='H'+str(int(H))+'.jpg'
+    else:
+        title='H'+str(int(H))+'_L'+str(int(L))+'_S'+str(int(S))+'.jpg'
+
+    imsize=[120,160]
+    RGB=c.HLS_to_RGB(H, L, S)
+
+    im=np.ndarray([imsize[0],imsize[1],3])
+
+    for i in range(im.shape[0]):
+        for j in range(im.shape[1]):
+            im[i,j,:]=np.array([RGB[2],RGB[1],RGB[0]])*255
+
+    cv2.imwrite(title, im)
