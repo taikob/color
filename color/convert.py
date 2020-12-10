@@ -2,6 +2,14 @@ def RGB_to_intensity(RGB):
     I=0.298912 * RGB[0] + 0.586611 * RGB[1] + 0.114478 * RGB[2]
     return I
 
+def RGB_to_colorcode(RGB):
+    code='#'
+    for c in RGB:
+        if c < 16:
+            code += str(0)
+        code+=str(hex(int(c))).replace('0x','')
+    return code
+
 def HLS_to_RGB(H, L, S):
     if not L == 0 or not L == 1:
         if not S == 0:
