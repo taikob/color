@@ -45,8 +45,14 @@ def RGB_to_colorcode(RGB):
         code+=str(hex(int(c))).replace('0x','')
     return code
 
-def get_int(tprm):
-    prm = int(tprm)
+def get_int(H):
+    prm = int(H)
     prm = HLS_to_RGB(prm, 0.5, 1)
-    prm = RGB_to_intensity(prm)
-    return prm
+    return RGB_to_intensity(prm)
+
+
+
+def get_colorcode(H):
+    H = int(H)
+    RGB = HLS_to_RGB(H, 0.5, 1)
+    return RGB_to_colorcode([int(255*RGB[0]), int(255*RGB[1]), int(255*RGB[2])])
