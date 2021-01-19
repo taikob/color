@@ -50,9 +50,19 @@ def get_int(H):
     prm = HLS_to_RGB(prm, 0.5, 1)
     return RGB_to_intensity(prm)
 
-
-
 def get_colorcode(H):
     H = int(H)
     RGB = HLS_to_RGB(H, 0.5, 1)
     return RGB_to_colorcode([int(255*RGB[0]), int(255*RGB[1]), int(255*RGB[2])])
+
+def xyY_to_XYZ(xyY):
+    X = xyY[2] * xyY[0] / xyY[1]
+    Y = xyY[2]
+    Z = xyY[2] * ( 1 - xyY[0] - xyY[1] ) / xyY[1]
+    return [X, Y, Z]
+
+def XYZ_to_RGB(XYZ):
+    R =  1.9099 * XYZ[0] - 0.5324 * XYZ[1] - 0.2882 * XYZ[2]
+    G = -0.9846 * XYZ[0] + 1.9991 * XYZ[1] - 0.0283 * XYZ[2]
+    B =  0.0583 * XYZ[0] - 0.1184 * XYZ[1] + 0.8979 * XYZ[2]
+    return [R, G, B]
