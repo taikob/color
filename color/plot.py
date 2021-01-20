@@ -41,7 +41,7 @@ def show_colormap(colorlist,sw):
 
     plt.show()
 
-def make_image(H,L=None,S=None):
+def make_image_HLS(H,L=None,S=None):
     if L is None or S is None:
         L=0.5
         S=1
@@ -57,5 +57,19 @@ def make_image(H,L=None,S=None):
     for i in range(im.shape[0]):
         for j in range(im.shape[1]):
             im[i,j,:]=np.array([RGB[2],RGB[1],RGB[0]])*255
+
+    cv2.imwrite(title, im)
+
+def make_image_RGB(R,G,B):
+    title='R'+str(int(R))+'_G'+str(int(G))+'_B'+str(int(B))+'.jpg'
+
+    imsize=[120,160]
+    RGB=[R,G,B]
+
+    im=np.ndarray([imsize[0],imsize[1],3])
+
+    for i in range(im.shape[0]):
+        for j in range(im.shape[1]):
+            im[i,j,:]=np.array([RGB[2],RGB[1],RGB[0]])
 
     cv2.imwrite(title, im)
