@@ -61,8 +61,14 @@ def xyY_to_XYZ(xyY):
     Z = xyY[2] * ( 1 - xyY[0] - xyY[1] ) / xyY[1]
     return [X, Y, Z]
 
-def XYZ_to_RGB(XYZ):
-    R =  1.9099 * XYZ[0] - 0.5324 * XYZ[1] - 0.2882 * XYZ[2]
-    G = -0.9846 * XYZ[0] + 1.9991 * XYZ[1] - 0.0283 * XYZ[2]
-    B =  0.0583 * XYZ[0] - 0.1184 * XYZ[1] + 0.8979 * XYZ[2]
+def XYZ_to_RGB(XYZ, wp='D65'):
+    if wp=='c':
+        R =  1.9099 * XYZ[0] - 0.5324 * XYZ[1] - 0.2882 * XYZ[2]
+        G = -0.9846 * XYZ[0] + 1.9991 * XYZ[1] - 0.0283 * XYZ[2]
+        B =  0.0583 * XYZ[0] - 0.1184 * XYZ[1] + 0.8979 * XYZ[2]
+    else:
+        R =  3.2410 * XYZ[0] - 1.5374 * XYZ[1] - 0.4986 * XYZ[2]
+        G = -0.9692 * XYZ[0] + 1.8760 * XYZ[1] + 0.0416 * XYZ[2]
+        B =  0.0556 * XYZ[0] - 0.2040 * XYZ[1] + 1.0507 * XYZ[2]
+
     return [R, G, B]
