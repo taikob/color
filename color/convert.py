@@ -144,5 +144,3 @@ def get_fixRGB(rRGB):
 
     RGB=YRGB_to_RGB(YRGB)
     return RGB
-
-YRGB_to_RGB([2.22e-2,0,0])
