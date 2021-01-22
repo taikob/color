@@ -1,3 +1,10 @@
+import numpy as np
+import csv
+import sys
+import os
+
+sys.path.append(os.getcwd()+'/color')
+
 def RGB_to_intensity(RGB):
     I=0.298912 * RGB[0] + 0.586611 * RGB[1] + 0.114478 * RGB[2]
     return I
@@ -72,3 +79,72 @@ def XYZ_to_RGB(XYZ, wp='D65'):
         B =  0.0556 * XYZ[0] - 0.2040 * XYZ[1] + 1.0507 * XYZ[2]
 
     return [R, G, B]
+
+def get_coe():
+    xR=3.38E-01
+    xG=3.1E-01
+    xB=1.789E-01
+    yR=3.12E-01
+    yG=6E-01
+    yB=4.7E-02
+
+    kXR = 0.4124
+    kXG = 0.3576
+    kXB = 0.1805
+
+    kYR = 0.2126
+    kYG = 0.7152
+    kYB = 0.0722
+
+    kZR = 0.0193
+    kZG = 0.1192
+    kZB = 0.9505
+
+    k = np.matrix([[kXR,kXG,kXB],[kYR,kYG,kYB],[kZR,kZG,kZB]])
+
+    l = np.matrix([[xR/yR, xG/yG, xB/yB], [1, 1, 1],[(1-xR-yR)/yR, (1-xG-yG)/yG, (1-xB-yB)/yB]])
+    l = l**-1
+
+    return [k,l]
+
+def interplt(data,P):
+
+    di=data[1][0] - data[0][0]
+    if data[0][1] > P:
+        Pi = [int(di * P / data[0][1])]
+    else:
+        for i in range(data.shape[0]-1, -1, -1):
+            if data[i][1]<P:
+                if i==data.shape[1]: Pi=data[data.shape[0]-1][0]
+                Pi=[int(data[i][0]+di*(P-data[i][1])/(data[i+1][1]-data[i][1]))]
+                break
+    return Pi
+
+def YRGB_to_RGB(YRGB):
+
+    Rdata=np.loadtxt(os.getcwd()+'/color/R.csv', delimiter=',')
+    Gdata=np.loadtxt(os.getcwd()+'/color/G.csv', delimiter=',')
+    Bdata=np.loadtxt(os.getcwd()+'/color/B.csv', delimiter=',')
+    RGB=list()
+    RGB.append(interplt(Rdata,YRGB[0]))
+    RGB.append(interplt(Gdata,YRGB[1]))
+    RGB.append(interplt(Bdata,YRGB[2]))
+
+    print(RGB)
+
+def get_fixRGB(rRGB):
+    #rRGB is real RGB
+    if rRGB[0]>1 or rRGB[1]>1 or rRGB[2]>1:
+        rRGB[0]/=255
+        rRGB[1]/=255
+        rRGB[2]/=255
+
+    coe=get_coe()
+    k=coe[0]
+    l=coe[1]
+    rRGB=np.matrix(rRGB)
+
+    YRGB=np.dot(l, np.dot(k, rRGB))
+
+    RGB=YRGB_to_RGB(YRGB)
+    return RGB
