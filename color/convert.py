@@ -142,7 +142,7 @@ def get_fixRGB(rRGB):
     coe=get_coe()
     k=coe[0]
     l=coe[1]
-    rRGB=np.matrix([rRGB])
+    rRGB=np.matrix([[rRGB[0]],[rRGB[1]],[rRGB[2]]])
 
     YRGB=np.dot(l, np.dot(k, rRGB))
 
