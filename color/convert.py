@@ -126,7 +126,7 @@ def YRGB_to_RGB(YRGB):
     RGB.append(interplt(Gdata,YRGB[1]))
     RGB.append(interplt(Bdata,YRGB[2]))
 
-    print(RGB)
+    return RGB
 
 def get_fixRGB(rRGB):
     #rRGB is real RGB
