@@ -1,9 +1,6 @@
 import numpy as np
-import csv
-import sys
 import os
 
-sys.path.append(os.getcwd()+'/color')
 
 def RGB_to_intensity(RGB):
     I=0.298912 * RGB[0] + 0.586611 * RGB[1] + 0.114478 * RGB[2]
@@ -122,9 +119,9 @@ def interplt(data,P):
 
 def YRGB_to_RGB(YRGB):
 
-    Rdata=np.loadtxt(os.getcwd()+'/color/R.csv', delimiter=',')
-    Gdata=np.loadtxt(os.getcwd()+'/color/G.csv', delimiter=',')
-    Bdata=np.loadtxt(os.getcwd()+'/color/B.csv', delimiter=',')
+    Rdata=np.loadtxt(__file__.replace('convert.py','')+'R.csv', delimiter=',')
+    Gdata=np.loadtxt(__file__.replace('convert.py','')+'G.csv', delimiter=',')
+    Bdata=np.loadtxt(__file__.replace('convert.py','')+'B.csv', delimiter=',')
     RGB=list()
     RGB.append(interplt(Rdata,YRGB[0]))
     RGB.append(interplt(Gdata,YRGB[1]))
@@ -148,3 +145,5 @@ def get_fixRGB(rRGB):
 
     RGB=YRGB_to_RGB(YRGB)
     return RGB
+
+YRGB_to_RGB([2.22e-2,0,0])
