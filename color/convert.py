@@ -118,10 +118,9 @@ def interplt(data,P):
     return Pi
 
 def YRGB_to_RGB(YRGB):
-    print(__path__)
-    Rdata=np.loadtxt(__path__+'/R.csv', delimiter=',')
-    Gdata=np.loadtxt(__path__+'/G.csv', delimiter=',')
-    Bdata=np.loadtxt(__path__+'/B.csv', delimiter=',')
+    Rdata=np.loadtxt(os.path.dirname(__file__)+'/R.csv', delimiter=',')
+    Gdata=np.loadtxt(os.path.dirname(__file__)+'/G.csv', delimiter=',')
+    Bdata=np.loadtxt(os.path.dirname(__file__)+'/B.csv', delimiter=',')
     RGB=list()
     RGB.append(interplt(Rdata,YRGB[0]))
     RGB.append(interplt(Gdata,YRGB[1]))
