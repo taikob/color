@@ -171,5 +171,6 @@ def get_fixRGB(rRGB):
     rRGB=np.matrix([[rRGB[0]],[rRGB[1]],[rRGB[2]]])
 
     YRGB=np.dot(l, np.dot(k, rRGB))
+    print(YRGB)
 
     return YRGB_to_RGB(YRGB)
