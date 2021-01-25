@@ -133,12 +133,12 @@ def get_coe():
 def interplt(data,P):
 
     di=data[1][0] - data[0][0]
-    if data[0][1] > P:
-        Pi = int(di * P / data[0][1])
+    if data[1][1] > P:
+        Pi = int(di * P / data[1][1])
     else:
-        for i in range(data.shape[0]-2, -1, -1):
+        for i in range(data.shape[0]-1, -1, -1):
             if data[i][1]<P:
-                if i==data.shape[0]-2:
+                if i==data.shape[0]-1:
                     Pi=int(data[data.shape[0]-1][0])
                 else:
                     Pi=int(data[i][0]+di*(P-data[i][1])/(data[i+1][1]-data[i][1]))
@@ -146,6 +146,7 @@ def interplt(data,P):
     return Pi
 
 def YRGB_to_RGB(YRGB):
+    #must use data containg Black
     Rdata=np.loadtxt(os.getcwd()+'/R.csv', delimiter=',')
     Gdata=np.loadtxt(os.getcwd()+'/G.csv', delimiter=',')
     Bdata=np.loadtxt(os.getcwd()+'/B.csv', delimiter=',')
