@@ -128,8 +128,6 @@ def get_coe():
     l = np.matrix([[xR/yR, xG/yG, xB/yB], [1, 1, 1],[(1-xR-yR)/yR, (1-xG-yG)/yG, (1-xB-yB)/yB]])
     l = l**-1
 
-
-
     return [k,l]
 
 def interplt(data,P):
@@ -138,9 +136,9 @@ def interplt(data,P):
     if data[0][1] > P:
         Pi = int(di * P / data[0][1])
     else:
-        for i in range(data.shape[0]-1, -1, -1):
+        for i in range(data.shape[0]-2, -1, -1):
             if data[i][1]<P:
-                if i==data.shape[0]-1:
+                if i==data.shape[0]-2:
                     Pi=int(data[data.shape[0]-1][0])
                 else:
                     Pi=int(data[i][0]+di*(P-data[i][1])/(data[i+1][1]-data[i][1]))
@@ -170,10 +168,6 @@ def get_fixRGB(rRGB):
     l=coe[1]
     rRGB=np.matrix([[rRGB[0]],[rRGB[1]],[rRGB[2]]])
 
-    print(l)
-    print(k)
-    print(rRGB)
     YRGB=np.dot(l, np.dot(k, rRGB))
-    print(YRGB)
 
     return YRGB_to_RGB(YRGB)
