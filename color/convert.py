@@ -85,22 +85,50 @@ def get_coe():
     yG=6.03E-01
     yB=4.6E-02
 
-    kXR = 0.4124
-    kXG = 0.3576
-    kXB = 0.1805
+    #D65
+    #kXR = 0.4124
+    #kXG = 0.3576
+    #kXB = 0.1805
 
-    kYR = 0.2126
-    kYG = 0.7152
-    kYB = 0.0722
+    #kYR = 0.2126
+    #kYG = 0.7152
+    #kYB = 0.0722
 
-    kZR = 0.0193
-    kZG = 0.1192
-    kZB = 0.9505
+    #kZR = 0.0193
+    #kZG = 0.1192
+    #kZB = 0.9505
+
+    #kXR = 0.6069
+    #kXG = 0.1735
+    #kXB = 0.2003
+
+    #kYR = 0.2989
+    #kYG = 0.5866
+    #kYB = 0.1144
+
+    #kZR = 0.0000
+    #kZG = 0.0661
+    #kZB = 1.1157
+
+    kXR = 0.48978411
+    kXG = 0.35620101
+    kXB = 0.22400471
+
+    kYR = 0.24946948
+    kYG = 0.69286843
+    kYB = 0.0576621
+
+    kZR = 0.02365001
+    kZG = 0.09996609
+    kZB = 0.97185703
+
+
 
     k = np.matrix([[kXR,kXG,kXB],[kYR,kYG,kYB],[kZR,kZG,kZB]])
-
     l = np.matrix([[xR/yR, xG/yG, xB/yB], [1, 1, 1],[(1-xR-yR)/yR, (1-xG-yG)/yG, (1-xB-yB)/yB]])
     l = l**-1
+
+
 
     return [k,l]
 
@@ -133,9 +161,9 @@ def YRGB_to_RGB(YRGB):
 def get_fixRGB(rRGB):
     #rRGB is real RGB
     if rRGB[0]>1 or rRGB[1]>1 or rRGB[2]>1:
-        rRGB[0]/=255
-        rRGB[1]/=255
-        rRGB[2]/=255
+        rRGB[0]=float(rRGB[0])/255
+        rRGB[1]=float(rRGB[1])/255
+        rRGB[2]=float(rRGB[2])/255
 
     coe=get_coe()
     k=coe[0]
@@ -144,5 +172,4 @@ def get_fixRGB(rRGB):
 
     YRGB=np.dot(l, np.dot(k, rRGB))
 
-    print(YRGB)
     return YRGB_to_RGB(YRGB)
