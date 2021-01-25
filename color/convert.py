@@ -78,12 +78,12 @@ def XYZ_to_RGB(XYZ, wp='D65'):
     return [R, G, B]
 
 def get_coe():
-    xR=3.38E-01
+    xR=6.42E-01
     xG=3.1E-01
-    xB=1.789E-01
-    yR=3.12E-01
-    yG=6E-01
-    yB=4.7E-02
+    xB=1.787E-01
+    yR=3.27E-01
+    yG=6.03E-01
+    yB=4.6E-02
 
     kXR = 0.4124
     kXG = 0.3576
@@ -108,12 +108,14 @@ def interplt(data,P):
 
     di=data[1][0] - data[0][0]
     if data[0][1] > P:
-        Pi = [int(di * P / data[0][1])]
+        Pi = int(di * P / data[0][1])
     else:
         for i in range(data.shape[0]-1, -1, -1):
             if data[i][1]<P:
-                if i==data.shape[1]: Pi=data[data.shape[0]-1][0]
-                Pi=[int(data[i][0]+di*(P-data[i][1])/(data[i+1][1]-data[i][1]))]
+                if i==data.shape[0]-1:
+                    Pi=int(data[data.shape[0]-1][0])
+                else:
+                    Pi=int(data[i][0]+di*(P-data[i][1])/(data[i+1][1]-data[i][1]))
                 break
     return Pi
 
@@ -142,5 +144,5 @@ def get_fixRGB(rRGB):
 
     YRGB=np.dot(l, np.dot(k, rRGB))
 
-    RGB=YRGB_to_RGB(YRGB)
-    return RGB
+    print(YRGB)
+    return YRGB_to_RGB(YRGB)
