@@ -85,30 +85,6 @@ def get_coe():
     yG=6.03E-01
     yB=4.6E-02
 
-    #D65
-    #kXR = 0.4124
-    #kXG = 0.3576
-    #kXB = 0.1805
-
-    #kYR = 0.2126
-    #kYG = 0.7152
-    #kYB = 0.0722
-
-    #kZR = 0.0193
-    #kZG = 0.1192
-    #kZB = 0.9505
-
-    #kXR = 0.6069
-    #kXG = 0.1735
-    #kXB = 0.2003
-
-    #kYR = 0.2989
-    #kYG = 0.5866
-    #kYB = 0.1144
-
-    #kZR = 0.0000
-    #kZG = 0.0661
-    #kZB = 1.1157
 
     kXR = 0.48978411
     kXG = 0.35620101
@@ -146,6 +122,7 @@ def interplt(data,P):
     return Pi
 
 def YRGB_to_RGB(YRGB):
+
     #must use data containg Black
     Rdata=np.loadtxt(os.getcwd()+'/R.csv', delimiter=',')
     Gdata=np.loadtxt(os.getcwd()+'/G.csv', delimiter=',')
