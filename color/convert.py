@@ -149,6 +149,6 @@ def get_fixRGB(rRGB):
     YRGB=np.dot(l, np.dot(k, rRGB))
 
     for i in range(3):
-        if rRGB[i]==1: YRGB[i]=1
+        if rRGB[i]>0.999: YRGB[i]=1
 
     return YRGB_to_RGB(YRGB)
