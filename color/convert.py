@@ -77,45 +77,16 @@ def XYZ_to_RGB(XYZ, wp='D65'):
 
     return [R, G, B]
 
-def get_coe(sw=0):
-    if sw==0:
-        xR=6.42E-01
-        xG=3.1E-01
-        xB=1.787E-01
-        yR=3.27E-01
-        yG=6.03E-01
-        yB=4.6E-02
+def get_coe():
+    Rdata = np.loadtxt(os.getcwd() + '/R.csv', delimiter=',')
+    Gdata = np.loadtxt(os.getcwd() + '/G.csv', delimiter=',')
+    Bdata = np.loadtxt(os.getcwd() + '/B.csv', delimiter=',')
 
+    k = np.matrix([[Rdata[-1][1]/Rdata[-1][0],0,0],
+                   [0,Gdata[-1][1]/Gdata[-1][0],0],
+                   [0,0,Bdata[-1][1]/Bdata[-1][0]]])
 
-        kXR = 0.48978411
-        kXG = 0.35620101
-        kXB = 0.22400471
-
-        kYR = 0.24946948
-        kYG = 0.69286843
-        kYB = 0.0576621
-
-        kZR = 0.02365001
-        kZG = 0.09996609
-        kZB = 0.97185703
-
-
-
-        k = np.matrix([[kXR,kXG,kXB],[kYR,kYG,kYB],[kZR,kZG,kZB]])
-        l = np.matrix([[xR/yR, xG/yG, xB/yB], [1, 1, 1],[(1-xR-yR)/yR, (1-xG-yG)/yG, (1-xB-yB)/yB]])
-        l = l**-1
-
-        return [k,l]
-    else:
-        Rdata = np.loadtxt(os.getcwd() + '/R.csv', delimiter=',')
-        Gdata = np.loadtxt(os.getcwd() + '/G.csv', delimiter=',')
-        Bdata = np.loadtxt(os.getcwd() + '/B.csv', delimiter=',')
-
-        k = np.matrix([[Rdata[-1][1]/Rdata[-1][0],0,0],
-                       [0,Gdata[-1][1]/Gdata[-1][0],0],
-                       [0,0,Bdata[-1][1]/Bdata[-1][0]]])
-
-        return [k]
+    return [k]
 
 
 def interplt(data,P):
@@ -146,36 +117,15 @@ def YRGB_to_RGB(YRGB):
 
     return RGB
 
-def get_fixRGB(rRGB, sw=0):
-    if sw==0:
-        #rRGB is real RGB
-        if rRGB[0]>1 or rRGB[1]>1 or rRGB[2]>1:
-            rRGB[0]=float(rRGB[0])/255
-            rRGB[1]=float(rRGB[1])/255
-            rRGB[2]=float(rRGB[2])/255
+def get_fixRGB(rRGB):
+    # rRGB is real RGB
 
-        coe=get_coe()
-        k=coe[0]
-        l=coe[1]
-        rRGB=np.matrix([[rRGB[0]],[rRGB[1]],[rRGB[2]]])
+    rRGB = np.matrix([[rRGB[0]], [rRGB[1]], [rRGB[2]]])
+    coe = get_coe()
 
-        YRGB=np.dot(l, np.dot(k, rRGB))
+    YRGB = np.dot(coe[0], rRGB)
 
-        for i in range(3):
-            if rRGB[i]>0.999: YRGB[i]=1
+    for i in range(3):
+        if rRGB[i] == 255: YRGB[i] = 1
 
-        return YRGB_to_RGB(YRGB)
-    else:
-        # rRGB is real RGB
-
-        rRGB = np.matrix([[rRGB[0]], [rRGB[1]], [rRGB[2]]])
-        coe = get_coe(sw=1)
-
-        YRGB = np.dot(coe[0], rRGB)
-
-        for i in range(3):
-            if rRGB[i] == 255: YRGB[i] = 1
-
-        return YRGB_to_RGB(YRGB)
-
-print(get_fixRGB([255,0,0],sw=1))
+    return YRGB_to_RGB(YRGB)
