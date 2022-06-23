@@ -41,6 +41,26 @@ def HLS_to_RGB(H, L, S):
     elif L == 1:
         return [1, 1, 1]
 
+def RGB_to_HLS(R, G, B):
+    MAX = float(max([R,G,B]))
+    MIN = float(min([R,G,B]))
+
+    plus=MAX+MIN
+    minus=MAX-MIN
+    if MAX==MIN:
+        H=0
+    elif MIN==float(B):
+        H=60*(G-R)/(minus)+60
+    elif MIN==float(R):
+        H=60*(B-G)/(minus)+180
+    else:# MIN==float(G)
+        H=60*(R-B)/(minus)+300
+
+    L = float((plus)/2.0)
+    S = float((minus)/(1-abs(plus-1)))
+
+    return H,L,S
+
 def RGB_to_colorcode(RGB):
     code='#'
     for c in RGB:
@@ -87,7 +107,6 @@ def get_coe():
                    [0,0,Bdata[-1][1]/Bdata[-1][0]]])
 
     return [k]
-
 
 def interplt(data,P):
 
