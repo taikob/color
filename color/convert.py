@@ -49,15 +49,17 @@ def RGB_to_HLS(R, G, B):
     minus=MAX-MIN
     if MAX==MIN:
         H=0
-    elif MIN==float(B):
-        H=60*(G-R)/(minus)+60
-    elif MIN==float(R):
-        H=60*(B-G)/(minus)+180
-    else:# MIN==float(G)
-        H=60*(R-B)/(minus)+300
+        S = 0
+    else:
+        if MIN==float(B):
+            H=60*(G-R)/(minus)+60
+        elif MIN==float(R):
+            H=60*(B-G)/(minus)+180
+        else:# MIN==float(G)
+            H=60*(R-B)/(minus)+300
+        S = float((minus)/(1-abs(plus-1)))
 
     L = float((plus)/2.0)
-    S = float((minus)/(1-abs(plus-1)))
 
     return H,L,S
 
